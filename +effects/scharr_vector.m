@@ -5,13 +5,14 @@ function [ pixel ] = scharr_vector( in )
 %   Returns: pixel, the difference between the inputs (as one value).
 %   Usefel for edge detection.
 
-G_x = ([ 3 10 3; 0 0 0; -3 -10 -3 ] .* in);
-G_y = ([ 3 0 -3; 10 0 -10; 3 0 -3 ] .* in);
+G_x = 3*in(1,1:end-2) + 10*in(1,2:end-1) + 3*in(1,3:end) ...
+        - 3*in(3,1:end-2) - 10*in(3,2:end-1) - 3*in(3,3:end);
 
-G_x = sum(G_x(:));
-G_y = sum(G_y(:));
+G_y = 3*in(1,1:end-2)  -  3*in(1,3:end) ...
+       + 10*in(2,1:end-2)  -  10*in(2,3:end) ...
+       + 3*in(3,1:end-2)  -  3*in(3,3:end);
 
-G = sqrt(G_x^2 + G_y^2);
+G = sqrt(G_x.^2 + G_y.^2);
 
 pixel = min(G/8, 1);
 
