@@ -19,26 +19,26 @@ function [ t ] = function_time( f )
 %
 % > timing.function_time(@()( randn(1000)*randn(1000) ) )
 
-NUM_ITERS = 10;
+NUM_ITERS = 100;
 
 
 % run it once to ensure the JIT compiles it - including the timing
 % function!
-timing.simple_function_time(f());
+timing.simple_function_time(f);
 
-t1 = timing.simple_function_time(f());
-t2 = timing.simple_function_time(f());
+t1 = timing.simple_function_time(f);
+t2 = timing.simple_function_time(f);
 
 avg = mean([t1 t2]);
 
-if avg > 0.5
+if avg > 1
     t = avg;
 elseif abs((t2-t1)/t1) >= 0.1
-    timings = zeros(NUM_ITERS, 1);
+    timings = 0;
     for i=1:NUM_ITERS
-        timings(i) = timing.simple_function_time(f());
+        timings = timings + timing.simple_function_time(f);
     end
-    t = mean(timings);
+    t = timings/NUM_ITERS;
 else
     t = avg;
 end

@@ -33,15 +33,13 @@ num_iter = size(ns, 2);
 ts = nan(num_iter, 1);
 
 time_taken = 0;
+tic;
 for i=1:num_iter
-    tic;
     
     g = @()(f(ns(i)));
     ts(i) = timing.function_time(g);
     
-    time_taken = time_taken + toc;
-    
-    if time_taken > maxTime
+    if toc > maxTime
         return
     end
 end
