@@ -1,5 +1,6 @@
-function [out]=apply_vector_rows(f, border, in)
-% apply_scalar_vector_rows Applies a pixel-by-pixel effect to an image.
+function [out]=apply_vector_rows_par_outer(f, border, in)
+% apply_scalar_vector_rows_par_outer Applies a pixel-by-pixel effect to an
+% image, using a parfor loop.
 %
 % f - A function taking a 2*border+1 x 2*border+w row of pixels,
 %     and producing a 1 x w row of output pixels
@@ -25,7 +26,7 @@ assert(wOut>=1);
 
 out=zeros(hOut,wOut);
 
-for y=1:hOut
+parfor y=1:hOut
     nhood = in(y:y+2*border,:);
     out(y,:) = f(nhood);
 end
